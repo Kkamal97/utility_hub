@@ -1,0 +1,30 @@
+/* Custom Styles Specific to Excel Tool Page */
+header {
+    text-align: center;
+    position: relative;
+}
+
+.nav-back {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+textarea {
+    height: 250px;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+}
+
+.btn-group {
+    display: flex;
+    gap: 12px;
+}

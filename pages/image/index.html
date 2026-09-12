@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Resizer - Utility Hub</title>
+    <link rel="stylesheet" href="/static/css/global.css">
+    <link rel="stylesheet" href="/pages/image/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="nav-back">← Back to Hub</a>
+            <h1>Image Resizer</h1>
+            <p>Resize image dimensions and convert formats (PNG / JPEG).</p>
+        </header>
+
+        <div class="card">
+            <div class="form-group">
+                <label>Select Image:</label>
+                <input type="file" id="imageFileInput" accept="image/*" />
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Width (px):</label>
+                    <input type="number" id="widthInput" placeholder="e.g. 800" min="1" />
+                </div>
+                <div class="form-group">
+                    <label>Height (px):</label>
+                    <input type="number" id="heightInput" placeholder="e.g. 600" min="1" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Output Format:</label>
+                <select id="formatSelect">
+                    <option value="PNG">PNG</option>
+                    <option value="JPG">JPEG</option>
+                </select>
+            </div>
+
+            <div class="actions">
+                <span id="statusText">Ready</span>
+                <button class="btn" onclick="resizeImage()">Resize & Download</button>
+            </div>
+        </div>
+    </div>
+    <script src="/pages/image/script.js"></script>
+</body>
+</html>

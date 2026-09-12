@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SOP Converter - Utility Hub</title>
+    <!-- Shared Global CSS Theme -->
+    <link rel="stylesheet" href="/static/css/global.css">
+    <!-- Modular Page CSS -->
+    <link rel="stylesheet" href="/pages/excel/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="nav-back">← Back to Hub</a>
+            <h1>SOP Table to Excel</h1>
+            <p>Convert raw ChatGPT text or HTML tables to structured Excel files.</p>
+        </header>
+
+        <div class="card">
+            <textarea id="tableInput" placeholder="Paste table data here..."></textarea>
+            
+            <div class="actions">
+                <span id="statusText">Ready to process</span>
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="clearForm()">Erase</button>
+                    <button class="btn" onclick="convertTable()">Convert to Excel</button>
+                    <button class="btn btn-success" id="downloadBtn" style="display:none;" onclick="downloadFile()">Download .XLSX</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modular Page JS -->
+    <script src="/pages/excel/script.js"></script>
+</body>
+</html>
