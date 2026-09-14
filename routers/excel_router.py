@@ -1,3 +1,4 @@
+
 import io
 import re
 from fastapi import APIRouter, HTTPException
@@ -8,6 +9,9 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 
 router = APIRouter()
+
+class TablePayload:
+    pass
 
 class TablePayload(BaseModel):
     raw_text: str
@@ -34,6 +38,10 @@ async def convert_table(payload: TablePayload):
         cells = line.split('\t') if '\t' in line else [c.strip() for c in line.split('|') if c.strip()]
         cleaned = [clean_chatgpt_formatting(c) for c in cells if c.strip()]
         if cleaned:
+            # Check if this row is a duplicate header row containing column names
+            row_str = " ".join(cleaned).lower()
+            if "work procedure" in row_str or row_str.startswith("no") or "quality standard" in row_str:
+                continue
             rows.append(cleaned)
 
     wb = openpyxl.Workbook()
@@ -65,8 +73,21 @@ async def convert_table(payload: TablePayload):
 
     # Render Data
     current_row = 2
-    for r_idx, r_data in enumerate(rows, start=1):
-        content = [str(r_idx)] + r_data[:6]
+    for r_data in rows:
+        # Check if the pasted row already contains an explicit sequence number in its first column
+        first_cell = r_data[0] if r_data else ""
+        num_match = re.match(r"^(\d+)(?:[\.\)]|\s*-)?$", first_cell)
+        
+        if num_match:
+            # First cell is already a number; use it for Column "No" and take subsequent cells for content
+            seq_num = num_match.group(1)
+            content_cells = r_data[1:]
+        else:
+            # First cell is text/procedure; auto-generate sequence number and take all cells as content
+            seq_num = str(current_row - 1)
+            content_cells = r_data
+
+        content = [seq_num] + content_cells[:6]
         while len(content) < 7:
             content.append("")
 
@@ -94,3 +115,4 @@ async def convert_table(payload: TablePayload):
         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         headers={'Content-Disposition': 'attachment; filename="Standardized_SOP.xlsx"'}
     )
+
